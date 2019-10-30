@@ -2,25 +2,29 @@ package com.hank.MC
 
 
 import java.io.File
-import java.util.regex.Pattern
 
 
 fun main() {
-    val mcDonalds = McDonalds()
+    val mcDonalds = McDonalds("mcdonalds.txt")
     mcDonalds.printMenu()
 }
 
-class McDonalds {
-    val menu = HashMap<String, Item1>()
+class McDonalds (file: String){
+    val menu = HashMap<String, Item>()
 
     init {
-        val br = File("mcdonalds.txt").bufferedReader()
+        /*val br = File("mcdonalds.txt").bufferedReader()
         var line = br.readLine()
         while(line != null) {
             val tokens = line.split(Pattern.compile(","))
             val item1 = Item1(tokens[0], tokens[1], Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]))
             menu.put(item1.id, item1)
             line = br.readLine()
+        }*/
+        File(file).bufferedReader().lines().forEach {
+            val tokens = it.split(",")
+            val item = Item(tokens[0], tokens[1], tokens[2].toInt(), tokens[3].toInt())
+            menu.put(item.id, item)
         }
     }
 
@@ -33,7 +37,7 @@ class McDonalds {
 
 
 
-data class Item1(val id: String, val name: String, val calorie: Int, val price: Int){
+data class Item(val id: String, val name: String, val calorie: Int, val price: Int){
 
     override fun toString(): String {
         return "$id\t$name\t$calorie\t$price"
